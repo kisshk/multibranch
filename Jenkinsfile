@@ -33,30 +33,66 @@ pipeline
                 }
             }
         }
-        stage('ContTesting')
-        {
-            steps
-            {
-                script
-                {
-                    cicd.newDownload("FunctionalTesting.git")
-                    cicd.runSelenium("DeclarativePipelinewithSharedLibrarires")
-                }
-            }
-        }
-        stage('ContDelivery')
-        {
-            steps
-            {
-                script
-                {
-                    cicd.newDeploy("DeclarativePipelinewithSharedLibrarires","172.31.32.210","prodapp")
-                }
-            }
-        }
-        
-        
-        
-        
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     
+       
+       
+        
+
+
