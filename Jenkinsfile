@@ -3,60 +3,106 @@ pipeline
     agent any
     stages
     {
-        stage('ContDownload')
+        stage('ContinuousDownload')
         {
             steps
             {
-                script
-                {
-                    cicd.newDownload("maven.git")
-                }
+                git 'https://github.com/kisshk/multibranch.git'
             }
         }
-        stage('ContBuild')
+        stage('ContinuousBuild')
         {
             steps
             {
-                script
-                {
-                    cicd.newBuild()
-                }
+                sh 'mvn package'
             }
         }
-        stage('ContDeployment')
+        stage('ContinuousDeployment')
         {
             steps
             {
-                script
-                {
-                    cicd.newDeploy("DeclarativePipelinewithSharedLibrarires","172.31.32.68","testapp")
-                }
+                deploy adapters: [tomcat9(credentialsId: '8cc7d40a-bab0-438d-8dc2-f0d886815228', path: '', url: '172.31.82.247:8080')], contextPath: 'test1', war: '**/*.war'
             }
         }
-        stage('ContTesting')
+        stage('ContinuousTesting')
         {
             steps
             {
-                script
-                {
-                    cicd.newDownload("FunctionalTesting.git")
-                    cicd.runSelenium("DeclarativePipelinewithSharedLibrarires")
-                }
+                git 'https://github.com/intelliqittrainings/FunctionalTesting.git'
+                sh 'java -jar /home/ubuntu/.jenkins/workspace/DeclarativePipeline/testing.jar'
             }
         }
-        stage('ContDelivery')
+        stage('ContinuosuDelivery')
         {
             steps
             {
-                script
-                {
-                    cicd.newDeploy("DeclarativePipelinewithSharedLibrarires","172.31.32.210","prodapp")
-                }
+              input message: 'Waiting for Approval from the DM!', submitter: 'srinivas'
+              deploy adapters: [tomcat9(credentialsId: '8cc7d40a-bab0-438d-8dc2-f0d886815228', path: '', url: '172.31.93.239a:8080')], contextPath: 'prod1', war: '**/*.war'  
             }
         }
-        
         
         
         
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       
+       
+      
+
+
